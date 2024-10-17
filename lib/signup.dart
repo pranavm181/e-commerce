@@ -154,7 +154,7 @@ class Signup extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Signup(),
+                        builder: (context) => SignInpage(),
                       ),
                     );
                   },
