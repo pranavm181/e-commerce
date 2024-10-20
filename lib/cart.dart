@@ -1,5 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'package:ecommerce/checkout.dart';
+
+import 'package:ecommerce/notificationservice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cart_bloc.dart';
@@ -7,7 +10,10 @@ import 'cart_state.dart';
 import 'cart_event.dart';
 
 class CartPage extends StatelessWidget {
-  const CartPage({super.key});
+  CartPage({super.key});
+
+  final checkoutService = CheckoutService();
+  final notificationService = NotificationService();
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +68,26 @@ class CartPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Total: \$${total.toStringAsFixed(2)}',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Total: \$${total.toStringAsFixed(2)}',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      // Store the order in Firebase
+                      await checkoutService.storeOrderInFirebase(state.items);
+
+                      // Show local notification for order confirmation
+                      await notificationService.showOrderNotification();
+
+                      // Clear the cart if needed
                       BlocProvider.of<CartBloc>(context).add(ClearCart());
+
+                      // Show a success message using a SnackBar
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Cart cleared")),
+                        SnackBar(
+                            content: Text(
+                                'Order placed successfully!\nTotal Amount:\$${total.toStringAsFixed(2)}')),
                       );
                     },
                     child: Text('Checkout'),

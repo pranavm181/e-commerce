@@ -8,6 +8,11 @@ abstract class CartState extends Equatable {
 }
 
 class CartInitial extends CartState {}
+class CartLoaded extends CartState {
+  final List<Item> cartItems;
+
+  CartLoaded({required this.cartItems});
+}
 
 class CartUpdated extends CartState {
   final List<Item> items;
