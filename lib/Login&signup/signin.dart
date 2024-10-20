@@ -3,7 +3,7 @@
 import 'dart:developer';
 
 import 'package:ecommerce/homepage.dart';
-import 'package:ecommerce/signup.dart';
+import 'package:ecommerce/Login&signup/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +11,7 @@ class SignInpage extends StatelessWidget {
   SignInpage({super.key});
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController resetemail = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,36 @@ class SignInpage extends StatelessWidget {
       }
     }
 
+    Future forgot() async {
+      try {
+        if (resetemail.text.contains('@')) {
+          await FirebaseAuth.instance
+              .sendPasswordResetEmail(email: resetemail.text);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Email sent Successfully',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.black,
+              action: SnackBarAction(label: 'Cancel', onPressed: () {}),
+            ),
+          );
+          Navigator.pop(context);
+        }
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: Text("An Error Occured ${e.toString()}"),
+          ),
+        );
+      }
+    }
+
+    double screenwidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -84,10 +113,70 @@ class SignInpage extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 5),
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      backgroundColor: Colors.white,
+                      title: Text(
+                        'Verify Your Email',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      content: TextField(
+                        controller: resetemail,
+                        decoration: InputDecoration(
+                          labelText: 'Email to verify',
+                          labelStyle:
+                              TextStyle(color: Colors.black, fontSize: 18),
+                          fillColor: Colors.grey[100],
+                          filled: true,
+                          floatingLabelAlignment: FloatingLabelAlignment.start,
+                          contentPadding: EdgeInsets.all(10.0),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(style: BorderStyle.none),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(style: BorderStyle.none),
+                          ),
+                        ),
+                      ),
+                      actions: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.black),
+                          ),
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            forgot();
+                          },
+                          style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.black),
+                          ),
+                          child: Text(
+                            'Verify',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
                 child: Text(
                   'Forgot Password!',
                   style: TextStyle(
@@ -98,57 +187,28 @@ class SignInpage extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 5),
             ElevatedButton(
               onPressed: () {
                 signin();
               },
               style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Colors.black),
-                  fixedSize: WidgetStatePropertyAll(Size.fromWidth(480)),
-                  minimumSize: WidgetStatePropertyAll(Size.fromHeight(45))),
+                backgroundColor: WidgetStatePropertyAll(Colors.black),
+                fixedSize:
+                    WidgetStatePropertyAll(Size.fromWidth(screenwidth * 1)),
+              ),
               child: Text(
                 'Login',
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
             ),
             SizedBox(height: 10),
-            Center(
-              child: Text(
-                'Or',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-              ),
-            ),
-            SizedBox(height: 2),
-            ElevatedButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Colors.white),
-                  fixedSize: WidgetStatePropertyAll(Size.fromWidth(480)),
-                  minimumSize: WidgetStatePropertyAll(Size.fromHeight(45)),
-                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0)))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 20,
-                    width: 20,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('lib/images/google.png'))),
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    'Sign in with Google',
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 8),
             Row(
               children: [
-                Text("Don't have an account?"),
+                Text(
+                  "Don't have an account?",
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                ),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
@@ -161,6 +221,7 @@ class SignInpage extends StatelessWidget {
                   child: Text(
                     'Register',
                     style: TextStyle(
+                        fontSize: 15,
                         color: Colors.lightBlueAccent,
                         decoration: TextDecoration.underline,
                         decorationColor: Colors.lightBlueAccent),

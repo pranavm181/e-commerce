@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
-import 'package:ecommerce/checkout.dart';
+import 'package:ecommerce/checkout/checkout.dart';
 
-import 'package:ecommerce/notificationservice.dart';
+import 'package:ecommerce/checkout/notificationservice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cart_bloc.dart';
@@ -74,16 +74,15 @@ class CartPage extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      // Store the order in Firebase
+                      
                       await checkoutService.storeOrderInFirebase(state.items);
 
-                      // Show local notification for order confirmation
+                     
                       await notificationService.showOrderNotification();
 
-                      // Clear the cart if needed
                       BlocProvider.of<CartBloc>(context).add(ClearCart());
 
-                      // Show a success message using a SnackBar
+                      
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                             content: Text(

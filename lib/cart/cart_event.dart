@@ -1,4 +1,4 @@
-import 'package:ecommerce/itempage.dart';
+import 'package:ecommerce/Item/itempage.dart';
 import 'package:equatable/equatable.dart';
 
 

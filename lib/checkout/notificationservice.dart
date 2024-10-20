@@ -6,7 +6,7 @@ class NotificationService {
 
   Future<void> initNotification() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher'); // Ensure this icon exists
+        AndroidInitializationSettings('@mipmap/ic_launcher'); 
 
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
@@ -17,8 +17,8 @@ class NotificationService {
   Future<void> showOrderNotification() async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      'order_channel', // Channel ID
-      'Order Confirmation', // Channel Name
+      'order_channel', 
+      'Order Confirmation',
       importance: Importance.max,
       priority: Priority.high,
     );

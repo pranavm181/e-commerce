@@ -2,7 +2,7 @@
 
 import 'dart:developer';
 
-import 'package:ecommerce/signin.dart';
+import 'package:ecommerce/Login&signup/signin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +27,7 @@ class Signup extends StatelessWidget {
       }
     }
 
+    double screenwidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -108,44 +109,16 @@ class Signup extends StatelessWidget {
                 signup();
               },
               style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Colors.black),
-                  fixedSize: WidgetStatePropertyAll(Size.fromWidth(480)),
-                  minimumSize: WidgetStatePropertyAll(Size.fromHeight(45))),
+                backgroundColor: WidgetStatePropertyAll(Colors.black),
+                fixedSize:
+                    WidgetStatePropertyAll(Size.fromWidth(screenwidth * 1)),
+              ),
               child: Text(
                 'Sign Up',
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
             ),
             SizedBox(height: 20),
-            Center(child: Text('Or Sign In With')),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(Colors.white),
-                  fixedSize: WidgetStatePropertyAll(Size.fromWidth(480)),
-                  minimumSize: WidgetStatePropertyAll(Size.fromHeight(45)),
-                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0)))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 20,
-                    width: 20,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('lib/images/google.png'))),
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    'Sign in with Google',
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
             Row(
               children: [
                 Text("Already have an account?"),

@@ -3,7 +3,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce/itempage.dart';
+import 'package:ecommerce/Item/itempage.dart';
 
 
 class CheckoutService {
@@ -11,17 +11,17 @@ class CheckoutService {
     CollectionReference orders = FirebaseFirestore.instance.collection('orders');
 
     try {
-      // Prepare order details
+      
       List<Map<String, dynamic>> items = cartItems.map((item) => {
         'name': item.name,
         'price': item.price,
         'imageurl': item.imageurl,
       }).toList();
 
-      // Calculate the total price
+     
       double total = cartItems.fold(0.0, (sum, item) => sum + item.price);
 
-      // Store order in Firebase
+      
       await orders.add({
         'items': items,
         'total': total,

@@ -41,6 +41,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
   flutter_local_notifications: ^17.2.3
+  firebase_storage: ^12.3.3
 
 dev_dependencies:
   flutter_test:

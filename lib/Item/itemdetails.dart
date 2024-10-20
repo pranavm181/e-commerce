@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_string_escapes
 
-import 'package:ecommerce/cart_bloc.dart';
-import 'package:ecommerce/cart_event.dart';
-import 'package:ecommerce/itempage.dart';
+import 'package:ecommerce/cart/cart_bloc.dart';
+import 'package:ecommerce/cart/cart_event.dart';
+import 'package:ecommerce/Item/itempage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,6 +13,8 @@ class ItemDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenheight = MediaQuery.of(context).size.height;
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -26,7 +28,7 @@ class ItemDetailPage extends StatelessWidget {
           children: [
             Image(
               image: AssetImage(item.imageurl),
-              height: 300,
+              height: screenheight * 0.4,
               width: double.infinity,
             ),
             SizedBox(height: 16.0),
